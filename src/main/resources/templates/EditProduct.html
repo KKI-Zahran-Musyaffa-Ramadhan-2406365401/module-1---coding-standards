@@ -13,6 +13,10 @@
   <div class="container">
     <h3>Edit Product</h3>
 
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+      <span th:text="${error}"></span>
+    </div>
+
     <form th:action="@{/product/update}" th:object="${product}" method="post">
       <input type="hidden" th:field="*{productId}">
 

@@ -17,6 +17,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product create(Product product) {
+        if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot be empty");
+        }
+        if (product.getProductQuantity() < 0) {
+            throw new IllegalArgumentException("Product quantity cannot be negative");
+        }
         productRepository.create(product);
         return product;
     }
@@ -36,6 +42,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product update(String productId, Product product) {
+        if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot be empty");
+        }
+        if (product.getProductQuantity() < 0) {
+            throw new IllegalArgumentException("Product quantity cannot be negative");
+        }
         return productRepository.update(productId, product);
     }
 
