@@ -84,19 +84,12 @@ class ProductServiceImplTest {
         updatedProduct.setProductName("Product with Invalid Quantity");
         updatedProduct.setProductQuantity(-10);
 
-        Product expectedProduct = new Product();
-        expectedProduct.setProductId("test-id-123");
-        expectedProduct.setProductName("Product with Invalid Quantity");
-        expectedProduct.setProductQuantity(-10);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            productService.update("test-id-123", updatedProduct);
+        });
 
-        when(productRepository.update(eq("test-id-123"), any(Product.class)))
-                .thenReturn(expectedProduct);
-
-        Product result = productService.update("test-id-123", updatedProduct);
-
-        assertNotNull(result);
-        assertTrue(result.getProductQuantity() < 0, "Quantity should be negative to demonstrate invalid input");
-        verify(productRepository, times(1)).update(eq("test-id-123"), any(Product.class));
+        assertEquals("Product quantity cannot be negative", exception.getMessage());
+        verify(productRepository, never()).update(anyString(), any(Product.class));
     }
 
     @Test
