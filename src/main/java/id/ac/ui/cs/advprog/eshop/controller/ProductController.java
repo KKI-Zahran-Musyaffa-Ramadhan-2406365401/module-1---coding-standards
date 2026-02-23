@@ -26,8 +26,14 @@ public class ProductController {
 
     @PostMapping("/create")
     public String createProductPost(@ModelAttribute Product product, Model model) {
-        service.create(product);
-        return "redirect:list";
+        try {
+            service.create(product);
+            return "redirect:list";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("product", product);
+            return "createProduct";
+        }
     }
 
     @GetMapping("/list")
@@ -46,8 +52,14 @@ public class ProductController {
 
     @PostMapping("/update")
     public String updateProductPost(@ModelAttribute Product product, Model model) {
-        service.update(product.getProductId(), product);
-        return "redirect:list";
+        try {
+            service.update(product.getProductId(), product);
+            return "redirect:list";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("product", product);
+            return "EditProduct";
+        }
     }
 
     @PostMapping("/delete/{productId}")

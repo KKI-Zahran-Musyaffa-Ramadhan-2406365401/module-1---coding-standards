@@ -1,7 +1,7 @@
 val seleniumJavaVersion = "4.14.1"
 val seleniumJupiterVersion = "5.0.1"
 val webdriverManagerVersion = "5.6.3"
-val junitJupiterVersion = "5.9.1"
+val junitJupiterVersion = "6.0.2"
 
 plugins {
     java
@@ -44,7 +44,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.seleniumhq.selenium:selenium-java:$seleniumJavaVersion")
-    testImplementation("org.seleniumhq.selenium:selenium-jupiter:$seleniumJupiterVersion")
+    testImplementation("io.github.bonigarcia:selenium-jupiter:$seleniumJupiterVersion")
     testImplementation("io.github.bonigarcia:webdrivermanager:$webdriverManagerVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
@@ -68,6 +68,6 @@ tasks.register<Test>("functionalTest") {
     }
 }
 
-tasks.withType<Test>.configureEach {
+tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
