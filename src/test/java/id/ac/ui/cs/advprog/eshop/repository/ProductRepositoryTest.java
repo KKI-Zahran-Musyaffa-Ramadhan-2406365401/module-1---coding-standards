@@ -19,6 +19,8 @@ class ProductRepositoryTest {
 
     @BeforeEach
     void setUp() {
+        // Setup is currently handled by @InjectMocks.
+        // This method is kept for future setup requirements.
     }
 
     @Test

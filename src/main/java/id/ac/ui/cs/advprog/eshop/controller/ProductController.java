@@ -2,7 +2,6 @@ package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +12,17 @@ import java.util.List;
 @RequestMapping("/product")
 
 public class ProductController {
+    private static final String PRODUCT_ATTRIBUTE = "product";
+    private final ProductService service;
 
-    @Autowired
-    private ProductService service;
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
 
     @GetMapping("/create")
     public String createProductPage(Model model) {
         Product product = new Product();
-        model.addAttribute("product", product);
+        model.addAttribute(PRODUCT_ATTRIBUTE, product);
         return "createProduct";
     }
 
@@ -31,7 +33,7 @@ public class ProductController {
             return "redirect:list";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            model.addAttribute("product", product);
+            model.addAttribute(PRODUCT_ATTRIBUTE, product);
             return "createProduct";
         }
     }
@@ -46,7 +48,7 @@ public class ProductController {
     @GetMapping("/edit/{productId}")
     public String editProductPage(@PathVariable("productId") String productId, Model model) {
         Product product = service.findById(productId);
-        model.addAttribute("product", product);
+        model.addAttribute(PRODUCT_ATTRIBUTE, product);
         return "EditProduct";
     }
 
@@ -57,7 +59,7 @@ public class ProductController {
             return "redirect:list";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            model.addAttribute("product", product);
+            model.addAttribute(PRODUCT_ATTRIBUTE, product);
             return "EditProduct";
         }
     }
