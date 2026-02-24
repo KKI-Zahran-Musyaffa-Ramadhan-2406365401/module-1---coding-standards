@@ -2,7 +2,7 @@ name: Deploy to Koyeb
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, module-2-exercise ]
 
 jobs:
   deploy:

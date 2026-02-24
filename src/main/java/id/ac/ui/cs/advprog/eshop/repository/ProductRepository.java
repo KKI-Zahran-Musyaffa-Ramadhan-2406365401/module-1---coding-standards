@@ -13,7 +13,7 @@ import java.util.UUID;
 public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
 
-    public Product create(Product product) {
+    public Product create(final Product product) {
         product.setProductId(UUID.randomUUID().toString());
         productData.add(product);
         return product;
@@ -23,28 +23,32 @@ public class ProductRepository {
         return productData.iterator();
     }
 
-    public Product findById(String productId) {
-        for (Product product : productData) {
+    public Product findById(final String productId) {
+        Product foundProduct = null;
+        for (final Product product : productData) {
             if (product.getProductId().equals(productId)) {
-                return product;
+                foundProduct = product;
+                break;
             }
         }
-        return null;
+        return foundProduct;
     }
 
-    public Product update(String productId, Product updatedProduct) {
+    public Product update(final String productId, final Product updatedProduct) {
+        Product result = null;
         for (int i = 0; i < productData.size(); i++) {
-            Product product = productData.get(i);
+            final Product product = productData.get(i);
             if (product.getProductId().equals(productId)) {
                 updatedProduct.setProductId(productId);
                 productData.set(i, updatedProduct);
-                return updatedProduct;
+                result = updatedProduct;
+                break;
             }
         }
-        return null;
+        return result;
     }
 
-    public void delete(String productId) {
+    public void delete(final String productId) {
         productData.removeIf(product -> product.getProductId().equals(productId));
     }
 

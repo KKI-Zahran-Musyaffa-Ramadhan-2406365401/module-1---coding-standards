@@ -13,12 +13,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(final ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
     @Override
-    public Product create(Product product) {
+    public Product create(final Product product) {
         if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
             throw new IllegalArgumentException("Product name cannot be empty");
         }
@@ -31,19 +31,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAll() {
-        Iterator<Product> productIterator = productRepository.findAll();
-        List<Product> allProduct = new ArrayList<>();
+        final Iterator<Product> productIterator = productRepository.findAll();
+        final List<Product> allProduct = new ArrayList<>();
         productIterator.forEachRemaining(allProduct::add);
         return allProduct;
     }
 
     @Override
-    public Product findById(String productId) {
+    public Product findById(final String productId) {
         return productRepository.findById(productId);
     }
 
     @Override
-    public Product update(String productId, Product product) {
+    public Product update(final String productId, final Product product) {
         if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
             throw new IllegalArgumentException("Product name cannot be empty");
         }
@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void delete(String productId) {
+    public void delete(final String productId) {
         productRepository.delete(productId);
     }
 

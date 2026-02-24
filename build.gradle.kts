@@ -7,6 +7,8 @@ plugins {
     java
     id("org.springframework.boot") version "4.0.2"
     id("io.spring.dependency-management") version "1.1.7"
+    id("org.sonarqube") version "6.0.1.5171"
+    pmd
 }
 
 group = "id.ac.ui.cs.advprog"
@@ -21,6 +23,11 @@ java {
 
 tasks.withType<JavaCompile> {
     options.compilerArgs.add("-parameters")
+}
+
+pmd {
+    isIgnoreFailures = false
+    ruleSets = listOf("category/java/errorprone.xml", "category/java/bestpractices.xml", "category/java/codestyle.xml")
 }
 
 configurations {
