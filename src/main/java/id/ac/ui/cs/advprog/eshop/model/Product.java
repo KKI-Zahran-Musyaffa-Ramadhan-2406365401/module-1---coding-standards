@@ -7,11 +7,8 @@ import lombok.Setter;
 @Setter
 
 public class Product {
-    public Product() {
-        // Default constructor
-    }
-
     private String productId;
     private String productName;
     private int productQuantity;
+
 }

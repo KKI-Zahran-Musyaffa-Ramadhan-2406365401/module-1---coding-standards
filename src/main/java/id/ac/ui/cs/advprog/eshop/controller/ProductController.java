@@ -15,19 +15,19 @@ public class ProductController {
     private static final String PRODUCT_ATTRIBUTE = "product";
     private final ProductService service;
 
-    public ProductController(ProductService service) {
+    public ProductController(final ProductService service) {
         this.service = service;
     }
 
     @GetMapping("/create")
-    public String createProductPage(Model model) {
-        Product product = new Product();
+    public String createProductPage(final Model model) {
+        final Product product = new Product();
         model.addAttribute(PRODUCT_ATTRIBUTE, product);
         return "createProduct";
     }
 
     @PostMapping("/create")
-    public String createProductPost(@ModelAttribute Product product, Model model) {
+    public String createProductPost(@ModelAttribute final Product product, final Model model) {
         String result;
         try {
             service.create(product);
@@ -41,21 +41,21 @@ public class ProductController {
     }
 
     @GetMapping("/list")
-    public String productListPage(Model model) {
-        List<Product> allProducts = service.findAll();
+    public String productListPage(final Model model) {
+        final List<Product> allProducts = service.findAll();
         model.addAttribute("products", allProducts);
         return "ProductList";
     }
 
     @GetMapping("/edit/{productId}")
-    public String editProductPage(@PathVariable("productId") String productId, Model model) {
-        Product product = service.findById(productId);
+    public String editProductPage(@PathVariable("productId") final String productId, final Model model) {
+        final Product product = service.findById(productId);
         model.addAttribute(PRODUCT_ATTRIBUTE, product);
         return "EditProduct";
     }
 
     @PostMapping("/update")
-    public String updateProductPost(@ModelAttribute Product product, Model model) {
+    public String updateProductPost(@ModelAttribute final Product product, final Model model) {
         String result;
         try {
             service.update(product.getProductId(), product);
@@ -69,7 +69,7 @@ public class ProductController {
     }
 
     @PostMapping("/delete/{productId}")
-    public String deleteProduct(@PathVariable("productId") String productId) {
+    public String deleteProduct(@PathVariable("productId") final String productId) {
         service.delete(productId);
         return "redirect:/product/list";
     }
