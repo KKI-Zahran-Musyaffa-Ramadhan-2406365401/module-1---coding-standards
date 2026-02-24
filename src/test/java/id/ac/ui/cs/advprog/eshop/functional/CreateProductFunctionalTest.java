@@ -7,10 +7,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
+import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,7 +55,8 @@ class CreateProductFunctionalTest {
 
         submitButton.click();
 
-        Thread.sleep(500);
+        new WebDriverWait(driver, Duration.ofSeconds(1))
+                .until(ExpectedConditions.urlContains("/product/list"));
 
         String currentUrl = driver.getCurrentUrl();
         assertTrue(currentUrl.contains("/product/list"),
@@ -112,10 +116,13 @@ class CreateProductFunctionalTest {
         WebElement submitButton = driver.findElement(By.cssSelector("button[type='submit']"));
         submitButton.click();
 
-        Thread.sleep(500);
+        // Wait for the error message to appear since redirection shouldn't happen
+        WebElement errorAlert = new WebDriverWait(driver, Duration.ofSeconds(1))
+                .until(ExpectedConditions.presenceOfElementLocated(By.className("alert-danger")));
 
         String currentUrl = driver.getCurrentUrl();
-        assertTrue(currentUrl.contains("/product/list"),
-                "Should be redirected to product list page even with empty fields");
+        assertTrue(errorAlert.isDisplayed());
+        assertTrue(currentUrl.contains("/product/create"),
+                "Should stay on product create page when fields are empty");
     }
 }
