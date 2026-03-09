@@ -10,6 +10,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
+
 class OrderTest {
 
     private List<Product> products;
@@ -31,7 +33,6 @@ class OrderTest {
         this.products.add(product1);
         this.products.add(product2);
     }
-
 
     @Test
     void testCreateOrderEmptyProduct() {
@@ -63,18 +64,6 @@ class OrderTest {
     }
 
     @Test
-    void testCreateOrderSuccessStatus() {
-        Order order = new Order(
-                "13652556-012a-4c07-b546-54eb1396d79b",
-                this.products,
-                1708560000L,
-                "Safira Sudrajat",
-                "SUCCESS");
-
-        assertEquals("SUCCESS", order.getStatus());
-    }
-
-    @Test
     void testCreateOrderInvalidStatus() {
         assertThrows(IllegalArgumentException.class, () -> {
             Order order = new Order(
@@ -99,7 +88,6 @@ class OrderTest {
         assertEquals("CANCELLED", order.getStatus());
     }
 
-
 @Test
 void testSetStatusToInvalidStatus() {
     Order order = new Order(
@@ -109,8 +97,19 @@ void testSetStatusToInvalidStatus() {
         "Safira Sudrajat"
     );
     assertThrows(IllegalArgumentException.class, () -> 
-        order.setStatus("MEOW")
-    );
+        order.setStatus("MEOW"));
 }
+
+    @Test
+    void testCreateOrderSuccessStatus() {
+        Order order = new Order(
+                "13652556-012a-4c07-b546-54eb1396d79b",
+                this.products,
+                1708560000L,
+                "Safira Sudrajat",
+                OrderStatus.SUCCESS.getValue());
+
+        assertEquals(OrderStatus.SUCCESS.getValue(), order.getStatus());
+    }
 
 }
