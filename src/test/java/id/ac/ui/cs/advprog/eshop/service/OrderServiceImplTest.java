@@ -2,17 +2,32 @@ package id.ac.ui.cs.advprog.eshop.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.repository.OrderRepository;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 class OrderRepositoryTest {
+    @Mock
     OrderRepository orderRepository;
+
+    @InjectMocks
+    OrderServiceImpl orderService;
+
     List<Order> orders;
 
     @BeforeEach
@@ -27,16 +42,16 @@ class OrderRepositoryTest {
         products.add(product1);
 
         orders = new ArrayList<>();
-        Order order1 = new Order("13652556-012a-4c07-b546-54eb1396d79b", 
-            products, 1708560000L, "Safira Sudrajat");
+        Order order1 = new Order("13652556-012a-4c07-b546-54eb1396d79b",
+                products, 1708560000L, "Safira Sudrajat");
         orders.add(order1);
 
-        Order order2 = new Order("7f9e15bb-4b15-42f4-aebc-c3af385fb078", 
-            products, 1708570000L, "Safira Sudrajat");
+        Order order2 = new Order("7f9e15bb-4b15-42f4-aebc-c3af385fb078",
+                products, 1708570000L, "Safira Sudrajat");
         orders.add(order2);
 
-        Order order3 = new Order("e334ef40-9eff-4da8-9487-8ee697ecbf1e", 
-            products, 1708570000L, "Bambang Sudrajat");
+        Order order3 = new Order("e334ef40-9eff-4da8-9487-8ee697ecbf1e",
+                products, 1708570000L, "Bambang Sudrajat");
         orders.add(order3);
     }
 
@@ -64,7 +79,7 @@ class OrderRepositoryTest {
         Order order = orders.get(1);
         Order newOrder = new Order(order.getId(), order.getProducts(), order.getOrderTime(),
                 order.getAuthor(), OrderStatus.SUCCESS.getValue());
-        
+
         doReturn(order).when(orderRepository).findById(order.getId());
         doReturn(newOrder).when(orderRepository).save(any(Order.class));
 
@@ -132,6 +147,5 @@ class OrderRepositoryTest {
         List<Order> results = orderService.findAllByAuthor(order.getAuthor().toLowerCase());
         assertTrue(results.isEmpty());
     }
-
 
 }
