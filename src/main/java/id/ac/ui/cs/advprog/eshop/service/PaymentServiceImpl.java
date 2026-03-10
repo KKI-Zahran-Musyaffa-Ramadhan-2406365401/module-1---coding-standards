@@ -23,9 +23,7 @@ public class PaymentServiceImpl implements PaymentService {
         Payment payment = new Payment(paymentId, method, paymentData, order);
         
         String status = validatePayment(method, paymentData);
-        setStatus(payment, status);
-        
-        return paymentRepository.save(payment);
+        return setStatus(payment, status);
     }
 
     private String validatePayment(String method, Map<String, String> paymentData) {
