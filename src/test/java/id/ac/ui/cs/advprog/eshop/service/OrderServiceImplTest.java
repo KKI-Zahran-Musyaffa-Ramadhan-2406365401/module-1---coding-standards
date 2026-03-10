@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class OrderRepositoryTest {
+class OrderServiceImplTest {
     @Mock
     OrderRepository orderRepository;
 
@@ -32,7 +32,6 @@ class OrderRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        orderRepository = new OrderRepository();
 
         List<Product> products = new ArrayList<>();
         Product product1 = new Product();
@@ -129,7 +128,13 @@ class OrderRepositoryTest {
     @Test
     void testFindAllByAuthorIfAuthorCorrect() {
         Order order = orders.get(1);
-        doReturn(orders).when(orderRepository).findAllByAuthor(order.getAuthor());
+        List<Order> authorOrders = new ArrayList<>();
+        for (Order o : orders) {
+            if (o.getAuthor().equals(order.getAuthor())) {
+                authorOrders.add(o);
+            }
+        }
+        doReturn(authorOrders).when(orderRepository).findAllByAuthor(order.getAuthor());
 
         List<Order> results = orderService.findAllByAuthor(order.getAuthor());
         for (Order result : results) {
